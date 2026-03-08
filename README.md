@@ -2,6 +2,8 @@
 
 我自定义的 OpenClaw Agent Skills 集合。
 
+🔗 **GitHub**: https://github.com/gracexmatin/openclaw-skills
+
 ## 什么是 Skill
 
 Skill 是 OpenClaw 的扩展模块，为 AI Agent 提供特定领域的能力和工作流。
@@ -14,35 +16,50 @@ Skill 是 OpenClaw 的扩展模块，为 AI Agent 提供特定领域的能力和
 
 ## 安装方法
 
+### 方法1: 通过 ClawHub（推荐）
+
 ```bash
-# 通过 ClawHub 安装（如果已发布）
 openclaw skill install airport-area-mapper
+```
 
-# 或者手动安装
+### 方法2: 手动安装
+
+```bash
 # 1. 下载 .skill 文件
-# 2. 放置到 ~/.openclaw/skills/ 目录
+wget https://github.com/gracexmatin/openclaw-skills/raw/main/airport-area-mapper.skill
+
+# 2. 放置到 skills 目录
+mkdir -p ~/.openclaw/skills/airport-area-mapper
+unzip airport-area-mapper.skill -d ~/.openclaw/skills/airport-area-mapper
 ```
 
-## 目录结构
+## 开发新 Skill
 
+```bash
+# 1. 创建新 skill
+cd /root/.openclaw/workspace/skills
+python3 /usr/lib/node_modules/openclaw/skills/skill-creator/scripts/init_skill.py my-skill --path . --resources scripts
+
+# 2. 编辑 SKILL.md 和脚本
+
+# 3. 打包
+python3 /usr/lib/node_modules/openclaw/skills/skill-creator/scripts/package_skill.py my-skill
+
+# 4. 推送到 GitHub
+/root/.openclaw/workspace/tools/sync-skills-to-github.sh my-skill
 ```
-.
-├── README.md
-├── airport-area-mapper/
-│   ├── SKILL.md              # Skill 主文档
-│   ├── scripts/              # 执行脚本
-│   ├── references/           # 参考资料
-│   └── airport-area-mapper.skill  # 打包文件
-└── ...
+
+## 自动同步
+
+当 Kimi Claw 生成新的 skill 后，运行以下命令推送到 GitHub：
+
+```bash
+# 同步特定 skill
+/root/.openclaw/workspace/tools/sync-skills-to-github.sh airport-area-mapper
+
+# 同步所有 skills
+/root/.openclaw/workspace/tools/sync-skills-to-github.sh
 ```
-
-## 如何创建新 Skill
-
-参考 [skill-creator](https://docs.openclaw.ai/skills/creating-skills) 文档。
-
-## 自动更新
-
-当 Kimi Claw 生成新的 skill 时，会自动推送到此仓库。
 
 ---
 
